@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lingzhi Chen — Projects</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand">Lingzhi Chen</a>
+      <button class="nav-toggle" aria-label="Toggle menu" onclick="document.getElementById('navlinks').classList.toggle('open')">&#9776;</button>
+      <ul class="nav-links" id="navlinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="resume.html">Resume</a></li>
+        <li><a href="projects.html" class="active">Projects</a></li>
+        <li><a href="contact.html">Contact Me</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="container">
+      <section class="todo-section">
+        <div class="card todo-card">
+          <div class="todo-head">
+            <h2>Task Planner</h2>
+            <p>Pick a date on the calendar, write your task, and press Add. Check the box when it's done, or tap the × to remove it.</p>
+            <div class="todo-counter" id="todo-counter" aria-live="polite">0 of 0 tasks completed</div>
+          </div>
+
+          <div class="todo-notice" id="todo-notice" hidden></div>
+
+          <form class="todo-form" id="todo-form">
+            <div class="todo-field todo-field-date">
+              <label for="todo-date">Date</label>
+              <input type="date" id="todo-date" required />
+            </div>
+            <div class="todo-field todo-field-task">
+              <label for="todo-task">Task</label>
+              <input type="text" id="todo-task" placeholder="e.g. Finish portfolio draft" required maxlength="120" />
+            </div>
+            <button type="submit" class="btn todo-add">Add</button>
+
+            <div class="todo-field todo-field-priority">
+              <div class="priority-emoji-display" id="priority-emoji-display" aria-hidden="true">🟡</div>
+              <label>Priority</label>
+              <div class="priority-picker" id="priority-picker" role="group" aria-label="Task priority">
+                <button type="button" class="priority-btn prio-low" data-priority="low" data-emoji="🟢">🟢 Low</button>
+                <button type="button" class="priority-btn prio-medium active" data-priority="medium" data-emoji="🟡">🟡 Medium</button>
+                <button type="button" class="priority-btn prio-high" data-priority="high" data-emoji="🔴">🔴 High</button>
+              </div>
+            </div>
+
+            <div class="todo-field todo-field-emoji">
+              <label>Emoji — pick a fun one</label>
+              <div class="emoji-picker" id="emoji-picker" role="group" aria-label="Task emoji">
+                <button type="button" class="emoji-btn" data-emoji="🟢" aria-label="Green circle">🟢</button>
+                <button type="button" class="emoji-btn active" data-emoji="🟡" aria-label="Yellow circle">🟡</button>
+                <button type="button" class="emoji-btn" data-emoji="🔴" aria-label="Red circle">🔴</button>
+                <button type="button" class="emoji-btn" data-emoji="🎯" aria-label="Target">🎯</button>
+                <button type="button" class="emoji-btn" data-emoji="⭐" aria-label="Star">⭐</button>
+                <button type="button" class="emoji-btn" data-emoji="🌸" aria-label="Flower">🌸</button>
+              </div>
+            </div>
+          </form>
+
+          <ul class="todo-list" id="todo-list"></ul>
+          <p class="todo-empty" id="todo-empty">No tasks yet — add your first one above.</p>
+        </div>
+      </section>
+
+      <!-- ===== Weather App ===== -->
+      <section class="weather-section">
+        <div class="card weather-card">
+          <div class="weather-head">
+            <h2>Weather App</h2>
+            <p>Enter a city to check the current weather, temperature, and conditions.</p>
+          </div>
+
+          <form class="weather-form" id="weather-form">
+            <div class="weather-field">
+              <input type="text" id="weather-city" placeholder="e.g. Beijing, Shanghai, Tokyo" autocomplete="off" />
+              <div class="weather-suggest" id="weather-suggest" hidden></div>
+            </div>
+            <button type="submit" class="btn" id="weather-search">Search</button>
+            <div class="weather-unit" role="group" aria-label="Temperature unit">
+              <button type="button" class="unit-btn active" data-unit="C">°C</button>
+              <button type="button" class="unit-btn" data-unit="F">°F</button>
+            </div>
+          </form>
+
+          <div class="weather-result" id="weather-result"></div>
+        </div>
+      </section>
+
+      <!-- ===== World Time App ===== -->
+      <section class="worldtime-section">
+        <div class="card worldtime-card">
+          <div class="worldtime-head">
+            <h2>World Time</h2>
+            <p>Live clocks for cities around the world — add or remove any city you like.</p>
+          </div>
+
+          <div class="worldtime-toolbar">
+            <div class="worldtime-add">
+              <select id="worldtime-select" aria-label="Add a city">
+                <option value="">+ Add a city…</option>
+              </select>
+              <button type="button" class="btn worldtime-add-btn" id="worldtime-add-btn">Add</button>
+            </div>
+            <div class="worldtime-format" role="group" aria-label="Time format">
+              <button type="button" class="format-btn active" data-format="24">24h</button>
+              <button type="button" class="format-btn" data-format="12">12h</button>
+            </div>
+          </div>
+
+          <div class="worldtime-grid" id="worldtime-grid"></div>
+        </div>
+      </section>
+
+      <!-- ===== Mechanics Phenomena Visualized (Physics Lesson) ===== -->
+      <section class="mechanics-section">
+        <div class="card mechanics-card">
+          <div class="mechanics-head">
+            <h2>Mechanics Phenomena Visualized</h2>
+            <p>An interactive physics lesson — a live gravity sandbox. Drag to slingshot planets, watch them orbit, collide and merge into heavier, redder stars.</p>
+          </div>
+          <div class="mechanics-meta">
+            <span class="tag">Physics</span>
+            <span class="tag">Gravity Sim</span>
+            <span class="tag">Single File</span>
+          </div>
+          <a href="mechanics.html" class="btn mechanics-launch">Launch the lesson</a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+  (function () {
+    var SUPABASE_URL = 'https://zyuocpghopbqwrxnrylw.supabase.co';
+    var SUPABASE_KEY = 'sb_publishable_vzM7T8N7IhAclhBeXhsKog_Sc7DUisu';
+    var db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    var form = document.getElementById('todo-form');
+    var dateInput = document.getElementById('todo-date');
+    var taskInput = document.getElementById('todo-task');
+    var list = document.getElementById('todo-list');
+    var emptyNote = document.getElementById('todo-empty');
+    var counterEl = document.getElementById('todo-counter');
+    var noticeEl = document.getElementById('todo-notice');
+    var priorityPicker = document.getElementById('priority-picker');
+    var emojiPicker = document.getElementById('emoji-picker');
+    var emojiDisplay = document.getElementById('priority-emoji-display');
+    var currentPriority = 'medium';
+    var currentEmoji = '🟡';
+    var items = [];
+
+    // The todos table is expected to have core columns: id, task, date, created_at.
+    // priority / emoji / done are optional and detected at startup so the app
+    // keeps working (tasks, dates, ordering, delete) even before they are added.
+    var caps = { priority: false, emoji: false, done: false };
+    var DONE_KEY = 'lc_todo_local_done';
+    function loadLocalDone() {
+      try { return JSON.parse(localStorage.getItem(DONE_KEY)) || {}; }
+      catch (e) { return {}; }
+    }
+    function saveLocalDone(map) {
+      try { localStorage.setItem(DONE_KEY, JSON.stringify(map)); } catch (e) {}
+    }
+    var localDone = loadLocalDone();
+
+    // default date = today
+    dateInput.value = new Date().toISOString().slice(0, 10);
+
+    function fmtDate(iso) {
+      if (!iso) return '';
+      var d = new Date(iso + 'T00:00:00');
+      if (isNaN(d)) return iso;
+      return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+      });
+    }
+
+    function priorityLabel(p) {
+      return p === 'low' ? 'Low' : p === 'high' ? 'High' : 'Medium';
+    }
+
+    function updateCounter(items) {
+      var total = items.length;
+      var done = 0;
+      items.forEach(function (it) { if (it.done) done++; });
+      counterEl.textContent = done + ' of ' + total + ' tasks completed';
+      counterEl.style.display = total ? '' : 'none';
+    }
+
+    function render() {
+      list.innerHTML = '';
+      if (items.length === 0) {
+        emptyNote.textContent = 'No tasks yet — add your first one above.';
+        emptyNote.style.display = 'block';
+      } else {
+        emptyNote.style.display = 'none';
+      }
+      updateCounter(items);
+      items.forEach(function (item) {
+        var li = document.createElement('li');
+        li.className = 'todo-item' + (item.done ? ' done' : '');
+        li.dataset.id = item.id;
+        li.innerHTML =
+          '<label class="todo-check">' +
+            '<input type="checkbox" ' + (item.done ? 'checked' : '') + ' />' +
+            '<span class="todo-checkmark"></span>' +
+          '</label>' +
+          '<div class="todo-content">' +
+            '<span class="todo-text" title="Click to edit"><span class="todo-emoji">' + (item.emoji || '🟡') + '</span> ' + escapeHtml(item.text) + '</span>' +
+            '<span class="todo-date">' + fmtDate(item.date) + ' · <span class="todo-priority prio-' + (item.priority || 'medium') + '">' + priorityLabel(item.priority) + '</span></span>' +
+          '</div>' +
+          '<button class="todo-delete" aria-label="Delete task">&times;</button>';
+        list.appendChild(li);
+      });
+    }
+
+    async function detectCaps() {
+      var cols = ['priority', 'emoji', 'done'];
+      for (var i = 0; i < cols.length; i++) {
+        try {
+          var r = await db.from('todos').select(cols[i]).limit(0);
+          caps[cols[i]] = !r.error;
+        } catch (e) { caps[cols[i]] = false; }
+      }
+    }
+
+    function showNotice(kind, html) {
+      noticeEl.hidden = false;
+      noticeEl.className = 'todo-notice todo-notice-' + kind;
+      noticeEl.innerHTML = html + ' <button type="button" class="todo-notice-close" aria-label="Dismiss">&times;</button>';
+      var btn = noticeEl.querySelector('.todo-notice-close');
+      if (btn) btn.addEventListener('click', function () { noticeEl.hidden = true; });
+    }
+    function hideNotice() { noticeEl.hidden = true; }
+
+    var UPGRADE_SQL =
+      'alter table public.todos\n' +
+      "  add column if not exists priority text    not null default 'medium',\n" +
+      "  add column if not exists emoji    text    not null default '🟡',\n" +
+      '  add column if not exists done     boolean not null default false;';
+
+    function errMsg(e) { return escapeHtml((e && e.message) ? e.message : 'unknown error'); }
+
+    function renderSchemaNotice() {
+      var missing = ['priority', 'emoji', 'done'].filter(function (c) { return !caps[c]; });
+      if (!missing.length) { hideNotice(); return; }
+      var what = [];
+      if (!caps.done) what.push('checkbox completion');
+      if (!caps.priority || !caps.emoji) what.push('priority');
+      showNotice('warn',
+        '<strong>Almost there.</strong> Your <code>todos</code> table is missing the <code>' +
+        missing.join('</code>, <code>') + '</code> column' + (missing.length > 1 ? 's' : '') +
+        '. Tasks, dates and delete already sync to the cloud; ' + what.join(' and ') +
+        ' won’t until you run this once in <strong>Supabase Dashboard → SQL Editor</strong> and reload:' +
+        '<details><summary>Show SQL</summary><pre>' + escapeHtml(UPGRADE_SQL) + '</pre></details>'
+      );
+    }
+
+    async function refresh() {
+      emptyNote.textContent = 'Loading tasks…';
+      emptyNote.style.display = 'block';
+      list.innerHTML = '';
+      updateCounter([]);
+      try {
+        var res = await db.from('todos').select('*').order('created_at', { ascending: true });
+        if (res.error) throw res.error;
+        var ids = {};
+        items = (res.data || []).map(function (r) {
+          var rid = String(r.id);
+          ids[rid] = true;
+          return {
+            id: rid,
+            text: r.task,
+            date: r.date,
+            priority: r.priority || 'medium',
+            emoji: r.emoji || '🟡',
+            done: r.done === true || localDone[rid] === true,
+            created_at: r.created_at
+          };
+        });
+        // drop local completion overrides for rows that no longer exist
+        var changed = false;
+        Object.keys(localDone).forEach(function (id) {
+          if (!ids[id]) { delete localDone[id]; changed = true; }
+        });
+        if (changed) saveLocalDone(localDone);
+      } catch (e) {
+        console.error('Failed to load tasks', e);
+        items = [];
+        emptyNote.textContent = 'Could not load tasks — see notice above.';
+        showNotice('error', '<strong>Could not load tasks.</strong> ' + errMsg(e));
+        updateCounter(items);
+        return;
+      }
+      render();
+      renderSchemaNotice();
+    }
+
+    async function add(text, date) {
+      var payload = { task: text, date: date };
+      if (caps.priority) payload.priority = currentPriority;
+      if (caps.emoji) payload.emoji = currentEmoji;
+      if (caps.done) payload.done = false;
+      try {
+        var res = await db.from('todos').insert([payload]);
+        if (res.error) throw res.error;
+      } catch (e) {
+        console.error('Failed to add task', e);
+        showNotice('error', '<strong>Task not saved.</strong> ' + errMsg(e));
+      }
+      await refresh();
+    }
+
+    async function toggle(id) {
+      var item = items.filter(function (it) { return it.id === id; })[0];
+      if (!item) return;
+      if (caps.done) {
+        try {
+          var res = await db.from('todos').update({ done: !item.done }).eq('id', id);
+          if (res.error) throw res.error;
+        } catch (e) {
+          console.error('Failed to update task', e);
+          showNotice('error', '<strong>Could not update task.</strong> ' + errMsg(e));
+        }
+        await refresh();
+      } else {
+        // No done column yet: keep completion state on this device only.
+        item.done = !item.done;
+        if (item.done) localDone[id] = true; else delete localDone[id];
+        saveLocalDone(localDone);
+        render();
+      }
+    }
+
+    async function remove(id) {
+      delete localDone[id];
+      saveLocalDone(localDone);
+      try {
+        var res = await db.from('todos').delete().eq('id', id);
+        if (res.error) throw res.error;
+      } catch (e) {
+        console.error('Failed to delete task', e);
+        showNotice('error', '<strong>Could not delete task.</strong> ' + errMsg(e));
+      }
+      await refresh();
+    }
+
+    async function updateText(id, text) {
+      try {
+        var res = await db.from('todos').update({ task: text }).eq('id', id);
+        if (res.error) throw res.error;
+      } catch (e) {
+        console.error('Failed to update task', e);
+        showNotice('error', '<strong>Could not save edit.</strong> ' + errMsg(e));
+      }
+      await refresh();
+    }
+
+    function startEdit(id) {
+      var li = list.querySelector('.todo-item[data-id="' + id + '"]');
+      if (!li) return;
+      var span = li.querySelector('.todo-text');
+      if (!span || span.querySelector('input')) return;
+      var item = items.filter(function (it) { return it.id === id; })[0];
+      if (!item) return;
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'todo-edit-input';
+      input.value = item.text;
+      input.maxLength = 120;
+      span.textContent = '';
+      span.appendChild(input);
+      input.focus();
+      input.select();
+      var done = false;
+      function commit() {
+        if (done) return;
+        done = true;
+        var val = input.value.trim();
+        if (val && val !== item.text) {
+          updateText(id, val);
+        } else {
+          render();
+        }
+      }
+      function cancel() {
+        if (done) return;
+        done = true;
+        render();
+      }
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); commit(); }
+        else if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+      });
+      input.addEventListener('blur', commit);
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var text = taskInput.value.trim();
+      var date = dateInput.value;
+      if (!text || !date) return;
+      add(text, date);
+      taskInput.value = '';
+      taskInput.focus();
+    });
+
+    list.addEventListener('click', function (e) {
+      var li = e.target.closest('.todo-item');
+      if (!li) return;
+      var id = li.dataset.id;
+      if (e.target.matches('input[type="checkbox"]')) {
+        toggle(id);
+      } else if (e.target.closest('.todo-delete')) {
+        remove(id);
+      } else if (e.target.closest('.todo-text')) {
+        startEdit(id);
+      }
+    });
+
+    function setEmoji(emoji) {
+      currentEmoji = emoji;
+      emojiDisplay.textContent = emoji;
+      var ebs = emojiPicker.querySelectorAll('.emoji-btn');
+      ebs.forEach(function (b) { b.classList.toggle('active', b.dataset.emoji === emoji); });
+    }
+
+    priorityPicker.addEventListener('click', function (e) {
+      var btn = e.target.closest('.priority-btn');
+      if (!btn) return;
+      var btns = priorityPicker.querySelectorAll('.priority-btn');
+      btns.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      currentPriority = btn.dataset.priority;
+      setEmoji(btn.dataset.emoji);
+    });
+
+    emojiPicker.addEventListener('click', function (e) {
+      var btn = e.target.closest('.emoji-btn');
+      if (!btn) return;
+      setEmoji(btn.dataset.emoji);
+    });
+
+    detectCaps().then(refresh);
+  })();
+  </script>
+
+  <!-- ===== Weather App ===== -->
+  <script>
+  (function () {
+    var GEO_URL = 'https://geocoding-api.open-meteo.com/v1/search';
+    var FORECAST_URL = 'https://api.open-meteo.com/v1/forecast';
+    var form = document.getElementById('weather-form');
+    var cityInput = document.getElementById('weather-city');
+    var result = document.getElementById('weather-result');
+    var searchBtn = document.getElementById('weather-search');
+    var suggest = document.getElementById('weather-suggest');
+
+    // Curated list of Chinese cities: [English name, space-separated pinyin syllables, English province]
+    var CITIES = [
+      ['Beijing','bei jing','Beijing'],['Shanghai','shang hai','Shanghai'],['Tianjin','tian jin','Tianjin'],['Chongqing','chong qing','Chongqing'],
+      ['Guangzhou','guang zhou','Guangdong'],['Shenzhen','shen zhen','Guangdong'],['Zhuhai','zhu hai','Guangdong'],['Shantou','shan tou','Guangdong'],
+      ['Foshan','fo shan','Guangdong'],['Shaoguan','shao guan','Guangdong'],['Zhanjiang','zhan jiang','Guangdong'],['Zhaoqing','zhao qing','Guangdong'],
+      ['Jiangmen','jiang men','Guangdong'],['Maoming','mao ming','Guangdong'],['Huizhou','hui zhou','Guangdong'],['Meizhou','mei zhou','Guangdong'],
+      ['Shanwei','shan wei','Guangdong'],['Heyuan','he yuan','Guangdong'],['Yangjiang','yang jiang','Guangdong'],['Qingyuan','qing yuan','Guangdong'],
+      ['Dongguan','dong guan','Guangdong'],['Zhongshan','zhong shan','Guangdong'],['Chaozhou','chao zhou','Guangdong'],['Jieyang','jie yang','Guangdong'],
+      ['Yunfu','yun fu','Guangdong'],
+      ['Nanjing','nan jing','Jiangsu'],['Suzhou','su zhou','Jiangsu'],['Wuxi','wu xi','Jiangsu'],['Xuzhou','xu zhou','Jiangsu'],
+      ['Changzhou','chang zhou','Jiangsu'],['Nantong','nan tong','Jiangsu'],['Lianyungang','lian yun gang','Jiangsu'],['Huai\'an','huai an','Jiangsu'],
+      ['Yancheng','yan cheng','Jiangsu'],['Yangzhou','yang zhou','Jiangsu'],['Zhenjiang','zhen jiang','Jiangsu'],['Taizhou','tai zhou','Jiangsu'],
+      ['Suqian','su qian','Jiangsu'],
+      ['Hangzhou','hang zhou','Zhejiang'],['Ningbo','ning bo','Zhejiang'],['Wenzhou','wen zhou','Zhejiang'],['Jiaxing','jia xing','Zhejiang'],
+      ['Huzhou','hu zhou','Zhejiang'],['Shaoxing','shao xing','Zhejiang'],['Jinhua','jin hua','Zhejiang'],['Quzhou','qu zhou','Zhejiang'],
+      ['Zhoushan','zhou shan','Zhejiang'],['Taizhou','tai zhou','Zhejiang'],['Lishui','li shui','Zhejiang'],
+      ['Chengdu','cheng du','Sichuan'],['Zigong','zi gong','Sichuan'],['Panzhihua','pan zhi hua','Sichuan'],['Luzhou','lu zhou','Sichuan'],
+      ['Deyang','de yang','Sichuan'],['Mianyang','mian yang','Sichuan'],['Guangyuan','guang yuan','Sichuan'],['Suining','sui ning','Sichuan'],
+      ['Neijiang','nei jiang','Sichuan'],['Leshan','le shan','Sichuan'],['Nanchong','nan chong','Sichuan'],['Meishan','mei shan','Sichuan'],
+      ['Yibin','yi bin','Sichuan'],['Guang\'an','guang an','Sichuan'],['Dazhou','da zhou','Sichuan'],['Ya\'an','ya an','Sichuan'],
+      ['Bazhong','ba zhong','Sichuan'],['Ziyang','zi yang','Sichuan'],
+      ['Wuhan','wu han','Hubei'],['Huangshi','huang shi','Hubei'],['Shiyan','shi yan','Hubei'],['Yichang','yi chang','Hubei'],
+      ['Xiangyang','xiang yang','Hubei'],['Ezhou','e zhou','Hubei'],['Jingmen','jing men','Hubei'],['Xiaogan','xiao gan','Hubei'],
+      ['Jingzhou','jing zhou','Hubei'],['Huanggang','huang gang','Hubei'],['Xianning','xian ning','Hubei'],['Suizhou','sui zhou','Hubei'],
+      ['Xi\'an','xi an','Shaanxi'],['Tongchuan','tong chuan','Shaanxi'],['Baoji','bao ji','Shaanxi'],['Xianyang','xian yang','Shaanxi'],
+      ['Weinan','wei nan','Shaanxi'],['Yan\'an','yan an','Shaanxi'],['Hanzhong','han zhong','Shaanxi'],['Yulin','yu lin','Shaanxi'],
+      ['Ankang','an kang','Shaanxi'],['Shangluo','shang luo','Shaanxi'],
+      ['Changsha','chang sha','Hunan'],['Zhuzhou','zhu zhou','Hunan'],['Xiangtan','xiang tan','Hunan'],['Hengyang','heng yang','Hunan'],
+      ['Shaoyang','shao yang','Hunan'],['Yueyang','yue yang','Hunan'],['Changde','chang de','Hunan'],['Zhangjiajie','zhang jia jie','Hunan'],
+      ['Yiyang','yi yang','Hunan'],['Chenzhou','chen zhou','Hunan'],['Yongzhou','yong zhou','Hunan'],['Huaihua','huai hua','Hunan'],
+      ['Loudi','lou di','Hunan'],
+      ['Zhengzhou','zheng zhou','Henan'],['Kaifeng','kai feng','Henan'],['Luoyang','luo yang','Henan'],['Pingdingshan','ping ding shan','Henan'],
+      ['Anyang','an yang','Henan'],['Hebi','he bi','Henan'],['Xinxiang','xin xiang','Henan'],['Jiaozuo','jiao zuo','Henan'],
+      ['Puyang','pu yang','Henan'],['Xuchang','xu chang','Henan'],['Luohe','luo he','Henan'],['Sanmenxia','san men xia','Henan'],
+      ['Nanyang','nan yang','Henan'],['Shangqiu','shang qiu','Henan'],['Xinyang','xin yang','Henan'],['Zhoukou','zhou kou','Henan'],
+      ['Zhumadian','zhu ma dian','Henan'],
+      ['Jinan','ji nan','Shandong'],['Qingdao','qing dao','Shandong'],['Yantai','yan tai','Shandong'],['Zibo','zi bo','Shandong'],
+      ['Zaozhuang','zao zhuang','Shandong'],['Dongying','dong ying','Shandong'],['Weifang','wei fang','Shandong'],['Jining','ji ning','Shandong'],
+      ['Tai\'an','tai an','Shandong'],['Weihai','wei hai','Shandong'],['Rizhao','ri zhao','Shandong'],['Linyi','lin yi','Shandong'],
+      ['Dezhou','de zhou','Shandong'],['Liaocheng','liao cheng','Shandong'],['Binzhou','bin zhou','Shandong'],['Heze','he ze','Shandong'],
+      ['Shenyang','shen yang','Liaoning'],['Dalian','da lian','Liaoning'],['Anshan','an shan','Liaoning'],['Fushun','fu shun','Liaoning'],
+      ['Benxi','ben xi','Liaoning'],['Dandong','dan dong','Liaoning'],['Jinzhou','jin zhou','Liaoning'],['Yingkou','ying kou','Liaoning'],
+      ['Fuxin','fu xin','Liaoning'],['Liaoyang','liao yang','Liaoning'],['Panjin','pan jin','Liaoning'],['Tieling','tie ling','Liaoning'],
+      ['Chaoyang','chao yang','Liaoning'],['Huludao','hu lu dao','Liaoning'],
+      ['Harbin','ha er bin','Heilongjiang'],['Qiqihar','qi qi ha er','Heilongjiang'],['Jixi','ji xi','Heilongjiang'],['Hegang','he gang','Heilongjiang'],
+      ['Shuangyashan','shuang ya shan','Heilongjiang'],['Daqing','da qing','Heilongjiang'],['Yichun','yi chun','Heilongjiang'],['Jiamusi','jia mu si','Heilongjiang'],
+      ['Qitaihe','qi tai he','Heilongjiang'],['Mudanjiang','mu dan jiang','Heilongjiang'],['Heihe','hei he','Heilongjiang'],['Suihua','sui hua','Heilongjiang'],
+      ['Changchun','chang chun','Jilin'],['Jilin City','ji lin','Jilin'],['Siping','si ping','Jilin'],['Liaoyuan','liao yuan','Jilin'],
+      ['Tonghua','tong hua','Jilin'],['Baishan','bai shan','Jilin'],['Songyuan','song yuan','Jilin'],['Baicheng','bai cheng','Jilin'],
+      ['Shijiazhuang','shi jia zhuang','Hebei'],['Tangshan','tang shan','Hebei'],['Qinhuangdao','qin huang dao','Hebei'],['Handan','han dan','Hebei'],
+      ['Xingtai','xing tai','Hebei'],['Baoding','bao ding','Hebei'],['Zhangjiakou','zhang jia kou','Hebei'],['Chengde','cheng de','Hebei'],
+      ['Cangzhou','cang zhou','Hebei'],['Langfang','lang fang','Hebei'],['Hengshui','heng shui','Hebei'],
+      ['Taiyuan','tai yuan','Shanxi'],['Datong','da tong','Shanxi'],['Yangquan','yang quan','Shanxi'],['Changzhi','chang zhi','Shanxi'],
+      ['Jincheng','jin cheng','Shanxi'],['Shuozhou','shuo zhou','Shanxi'],['Jinzhong','jin zhong','Shanxi'],['Yuncheng','yun cheng','Shanxi'],
+      ['Xinzhou','xin zhou','Shanxi'],['Linfen','lin fen','Shanxi'],['Lüliang','lv liang','Shanxi'],
+      ['Hefei','he fei','Anhui'],['Wuhu','wu hu','Anhui'],['Bengbu','beng bu','Anhui'],['Huainan','huai nan','Anhui'],
+      ['Ma\'anshan','ma an shan','Anhui'],['Huaibei','huai bei','Anhui'],['Tongling','tong ling','Anhui'],['Anqing','an qing','Anhui'],
+      ['Huangshan','huang shan','Anhui'],['Chuzhou','chu zhou','Anhui'],['Fuyang','fu yang','Anhui'],['Suzhou','su zhou','Anhui'],
+      ['Lu\'an','lu an','Anhui'],['Bozhou','bo zhou','Anhui'],['Chizhou','chi zhou','Anhui'],['Xuancheng','xuan cheng','Anhui'],
+      ['Fuzhou','fu zhou','Fujian'],['Xiamen','xia men','Fujian'],['Putian','pu tian','Fujian'],['Sanming','san ming','Fujian'],
+      ['Quanzhou','quan zhou','Fujian'],['Zhangzhou','zhang zhou','Fujian'],['Nanping','nan ping','Fujian'],['Longyan','long yan','Fujian'],
+      ['Ningde','ning de','Fujian'],
+      ['Nanchang','nan chang','Jiangxi'],['Jingdezhen','jing de zhen','Jiangxi'],['Pingxiang','ping xiang','Jiangxi'],['Jiujiang','jiu jiang','Jiangxi'],
+      ['Xinyu','xin yu','Jiangxi'],['Yingtan','ying tan','Jiangxi'],['Ganzhou','gan zhou','Jiangxi'],['Ji\'an','ji an','Jiangxi'],
+      ['Yichun','yi chun','Jiangxi'],['Fuzhou','fu zhou','Jiangxi'],['Shangrao','shang rao','Jiangxi'],
+      ['Kunming','kun ming','Yunnan'],['Qujing','qu jing','Yunnan'],['Yuxi','yu xi','Yunnan'],['Baoshan','bao shan','Yunnan'],
+      ['Zhaotong','zhao tong','Yunnan'],['Lijiang','li jiang','Yunnan'],['Pu\'er','pu er','Yunnan'],['Lincang','lin cang','Yunnan'],
+      ['Guiyang','gui yang','Guizhou'],['Liupanshui','liu pan shui','Guizhou'],['Zunyi','zun yi','Guizhou'],['Anshun','an shun','Guizhou'],
+      ['Bijie','bi jie','Guizhou'],['Tongren','tong ren','Guizhou'],
+      ['Nanning','nan ning','Guangxi'],['Liuzhou','liu zhou','Guangxi'],['Guilin','gui lin','Guangxi'],['Wuzhou','wu zhou','Guangxi'],
+      ['Beihai','bei hai','Guangxi'],['Fangchenggang','fang cheng gang','Guangxi'],['Qinzhou','qin zhou','Guangxi'],['Guigang','gui gang','Guangxi'],
+      ['Yulin','yu lin','Guangxi'],['Baise','bai se','Guangxi'],['Hezhou','he zhou','Guangxi'],['Hechi','he chi','Guangxi'],
+      ['Laibin','lai bin','Guangxi'],['Chongzuo','chong zuo','Guangxi'],
+      ['Haikou','hai kou','Hainan'],['Sanya','san ya','Hainan'],['Sansha','san sha','Hainan'],
+      ['Lanzhou','lan zhou','Gansu'],['Jiayuguan','jia yu guan','Gansu'],['Jinchang','jin chang','Gansu'],['Baiyin','bai yin','Gansu'],
+      ['Tianshui','tian shui','Gansu'],['Wuwei','wu wei','Gansu'],['Zhangye','zhang ye','Gansu'],['Pingliang','ping liang','Gansu'],
+      ['Jiuquan','jiu quan','Gansu'],['Qingyang','qing yang','Gansu'],['Dingxi','ding xi','Gansu'],['Longnan','long nan','Gansu'],
+      ['Xining','xi ning','Qinghai'],['Haidong','hai dong','Qinghai'],
+      ['Yinchuan','yin chuan','Ningxia'],['Shizuishan','shi zui shan','Ningxia'],['Wuzhong','wu zhong','Ningxia'],['Guyuan','gu yuan','Ningxia'],
+      ['Zhongwei','zhong wei','Ningxia'],
+      ['Urumqi','wu lu mu qi','Xinjiang'],['Karamay','ke la ma yi','Xinjiang'],['Turpan','tu lu fan','Xinjiang'],['Hami','ha mi','Xinjiang'],
+      ['Hohhot','hu he hao te','Inner Mongolia'],['Baotou','bao tou','Inner Mongolia'],['Wuhai','wu hai','Inner Mongolia'],['Chifeng','chi feng','Inner Mongolia'],
+      ['Tongliao','tong liao','Inner Mongolia'],['Ordos','e er duo si','Inner Mongolia'],['Hulunbuir','hu lun bei er','Inner Mongolia'],
+      ['Bayannur','ba yan nao er','Inner Mongolia'],['Ulanqab','wu lan cha bu','Inner Mongolia'],
+      ['Lhasa','la sa','Tibet']
+    ];
+
+    // Precompute matching keys once
+    CITIES.forEach(function (c) {
+      var syllables = c[1].split(' ');
+      c.flat = c[1].replace(/ /g, '');               // e.g. "shijiazhuang"
+      c.initials = syllables.map(function (s) { return s[0]; }).join(''); // e.g. "sjz"
+    });
+
+    var MAX_SUGGESTIONS = 8;
+    var activeIndex = -1;
+    var unit = 'C';            // 'C' or 'F'
+    var lastWeather = null;    // { loc, current, daily } so we can re-render on unit toggle
+    var pendingGeo = null;     // geocoding results awaiting disambiguation
+
+    // WMO weather code -> { emoji icon, condition label }
+    var WMO = {
+      0:  { icon: '☀️', label: 'Clear sky' },
+      1:  { icon: '🌤️', label: 'Mainly clear' },
+      2:  { icon: '⛅', label: 'Partly cloudy' },
+      3:  { icon: '☁️', label: 'Overcast' },
+      45: { icon: '🌫️', label: 'Fog' },
+      48: { icon: '🌫️', label: 'Rime fog' },
+      51: { icon: '🌦️', label: 'Light drizzle' },
+      53: { icon: '🌦️', label: 'Drizzle' },
+      55: { icon: '🌦️', label: 'Dense drizzle' },
+      56: { icon: '🌦️', label: 'Freezing drizzle' },
+      57: { icon: '🌦️', label: 'Freezing drizzle' },
+      61: { icon: '🌧️', label: 'Light rain' },
+      63: { icon: '🌧️', label: 'Rain' },
+      65: { icon: '🌧️', label: 'Heavy rain' },
+      66: { icon: '🌧️', label: 'Freezing rain' },
+      67: { icon: '🌧️', label: 'Freezing rain' },
+      71: { icon: '🌨️', label: 'Light snow' },
+      73: { icon: '🌨️', label: 'Snow' },
+      75: { icon: '❄️', label: 'Heavy snow' },
+      77: { icon: '🌨️', label: 'Snow grains' },
+      80: { icon: '🌦️', label: 'Light showers' },
+      81: { icon: '🌧️', label: 'Showers' },
+      82: { icon: '🌧️', label: 'Heavy showers' },
+      85: { icon: '🌨️', label: 'Snow showers' },
+      86: { icon: '❄️', label: 'Heavy snow showers' },
+      95: { icon: '⛈️', label: 'Thunderstorm' },
+      96: { icon: '⛈️', label: 'Thunderstorm with hail' },
+      99: { icon: '🌩️', label: 'Thunderstorm with hail' }
+    };
+
+    function weatherInfo(code) {
+      return WMO[code] || { icon: '🌈', label: 'Unknown' };
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    // Match a query against the city list. q is already lowercased.
+    function matchCities(q) {
+      if (!q) return [];
+      return CITIES.filter(function (c) {
+        var name = c[0].toLowerCase();
+        return name.indexOf(q) === 0 || c.flat.indexOf(q) === 0 || c.initials.indexOf(q) === 0;
+      }).slice(0, MAX_SUGGESTIONS);
+    }
+
+    function renderSuggestions(matches) {
+      pendingGeo = null;
+      if (!matches.length) {
+        suggest.hidden = true;
+        suggest.innerHTML = '';
+        activeIndex = -1;
+        return;
+      }
+      activeIndex = -1;
+      suggest.innerHTML = matches.map(function (c, i) {
+        return '<div class="suggest-item" data-name="' + escapeHtml(c[0]) + '" data-index="' + i + '">' +
+          '<span class="suggest-zh">' + escapeHtml(c[0]) + '</span>' +
+          '<span class="suggest-py">' + escapeHtml(c[1]) + '</span>' +
+          '<span class="suggest-prov">' + escapeHtml(c[2]) + '</span>' +
+        '</div>';
+      }).join('');
+      suggest.hidden = false;
+    }
+
+    // Show geocoding results that share the same name so the user can pick the right one.
+    function renderGeoResults(results) {
+      pendingGeo = results;
+      activeIndex = -1;
+      suggest.innerHTML = '<div class="suggest-hint">Multiple matches — pick one:</div>' +
+        results.map(function (loc, i) {
+          var sub = [loc.admin1, loc.country].filter(Boolean).join(', ');
+          return '<div class="suggest-item" data-geo="' + i + '" data-index="' + i + '">' +
+            '<span class="suggest-zh">' + escapeHtml(loc.name) + '</span>' +
+            '<span class="suggest-prov">' + escapeHtml(sub) + '</span>' +
+          '</div>';
+        }).join('');
+      suggest.hidden = false;
+    }
+
+    function hideSuggestions() {
+      suggest.hidden = true;
+      suggest.innerHTML = '';
+      activeIndex = -1;
+      pendingGeo = null;
+    }
+
+    function setActive(index) {
+      var items = suggest.querySelectorAll('.suggest-item');
+      if (!items.length) return;
+      if (activeIndex >= 0 && items[activeIndex]) items[activeIndex].classList.remove('active');
+      activeIndex = index;
+      if (activeIndex < 0) activeIndex = items.length - 1;
+      if (activeIndex >= items.length) activeIndex = 0;
+      items[activeIndex].classList.add('active');
+      items[activeIndex].scrollIntoView({ block: 'nearest' });
+    }
+
+    function selectActive() {
+      var items = suggest.querySelectorAll('.suggest-item');
+      var target = (activeIndex >= 0 && items[activeIndex]) ? items[activeIndex] : items[0];
+      if (!target) return;
+      if (target.dataset.geo !== undefined) {
+        var idx = +target.dataset.geo;
+        hideSuggestions();
+        fetchWeather(pendingGeo[idx]);
+      } else {
+        var name = target.dataset.name;
+        cityInput.value = name;
+        hideSuggestions();
+        searchCity(name);
+      }
+    }
+
+    function showLoading() {
+      result.innerHTML = '<p class="weather-loading">Loading…</p>';
+    }
+
+    function showError(msg) {
+      result.innerHTML = '<p class="weather-error">' + escapeHtml(msg) + '</p>';
+    }
+
+    // Format a Celsius temperature using the currently selected unit.
+    function formatTemp(c) {
+      if (unit === 'F') {
+        return Math.round(c * 9 / 5 + 32) + '°F';
+      }
+      return Math.round(c) + '°C';
+    }
+
+    function renderWeather(loc, current, daily) {
+      lastWeather = { loc: loc, current: current, daily: daily };
+      var info = weatherInfo(current.weather_code);
+      var subtitle = [loc.admin1, loc.country].filter(Boolean).join(', ');
+      var html =
+        '<div class="weather-info">' +
+          '<div class="weather-icon" aria-hidden="true">' + info.icon + '</div>' +
+          '<div class="weather-main">' +
+            '<div class="weather-city">' + escapeHtml(loc.name) + '</div>' +
+            '<div class="weather-temp">' + formatTemp(current.temperature_2m) + '</div>' +
+            '<div class="weather-cond">' + escapeHtml(info.label) + (subtitle ? ' · ' + escapeHtml(subtitle) : '') + '</div>' +
+          '</div>' +
+        '</div>';
+
+      // 3-day forecast (skip today at index 0)
+      if (daily && daily.time && daily.time.length > 1) {
+        var dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        var forecast = '<div class="weather-forecast"><h3 class="forecast-title">3-Day Forecast</h3><div class="forecast-days">';
+        for (var i = 1; i < Math.min(4, daily.time.length); i++) {
+          var dInfo = weatherInfo(daily.weather_code[i]);
+          var parts = daily.time[i].split('-');
+          var date = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+          var dayLabel = (i === 1) ? 'Tomorrow' : dayNames[date.getDay()];
+          var dateStr = (date.getMonth() + 1) + '/' + date.getDate();
+          forecast +=
+            '<div class="forecast-day">' +
+              '<div class="forecast-date">' + dayLabel + ' <span class="forecast-datenum">' + dateStr + '</span></div>' +
+              '<div class="forecast-icon" aria-hidden="true">' + dInfo.icon + '</div>' +
+              '<div class="forecast-temps">' +
+                '<span class="forecast-max">' + formatTemp(daily.temperature_2m_max[i]) + '</span>' +
+                ' <span class="forecast-min">' + formatTemp(daily.temperature_2m_min[i]) + '</span>' +
+              '</div>' +
+            '</div>';
+        }
+        forecast += '</div></div>';
+        html += forecast;
+      }
+
+      result.innerHTML = html;
+    }
+
+    // ---- Autocomplete events ----
+    cityInput.addEventListener('input', function () {
+      var q = cityInput.value.trim().toLowerCase();
+      renderSuggestions(matchCities(q));
+    });
+
+    cityInput.addEventListener('keydown', function (e) {
+      if (suggest.hidden) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); setActive(activeIndex + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(activeIndex - 1); }
+      else if (e.key === 'Enter') {
+        if (activeIndex >= 0) { e.preventDefault(); selectActive(); }
+      } else if (e.key === 'Escape') { hideSuggestions(); }
+    });
+
+    suggest.addEventListener('mousedown', function (e) {
+      var item = e.target.closest('.suggest-item');
+      e.preventDefault(); // keep focus on input
+      if (!item) { hideSuggestions(); return; }
+      if (item.dataset.geo !== undefined) {
+        var idx = +item.dataset.geo;
+        var loc = pendingGeo[idx];
+        cityInput.value = loc.name;
+        hideSuggestions();
+        fetchWeather(loc);
+      } else {
+        var name = item.dataset.name;
+        cityInput.value = name;
+        hideSuggestions();
+        searchCity(name);
+      }
+    });
+
+    document.addEventListener('mousedown', function (e) {
+      if (!e.target.closest('.weather-field')) hideSuggestions();
+    });
+
+    // ---- Unit toggle (°C / °F) ----
+    document.querySelectorAll('.unit-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        unit = btn.dataset.unit;
+        document.querySelectorAll('.unit-btn').forEach(function (b) {
+          b.classList.toggle('active', b.dataset.unit === unit);
+        });
+        if (lastWeather) {
+          renderWeather(lastWeather.loc, lastWeather.current, lastWeather.daily);
+        }
+      });
+    });
+
+    // ---- Search ----
+    async function fetchWeather(loc) {
+      hideSuggestions();
+      searchBtn.disabled = true;
+      showLoading();
+      try {
+        var weatherRes = await fetch(FORECAST_URL +
+          '?latitude=' + loc.latitude +
+          '&longitude=' + loc.longitude +
+          '&current=temperature_2m,weather_code' +
+          '&daily=weather_code,temperature_2m_max,temperature_2m_min' +
+          '&timezone=auto' +
+          '&forecast_days=4');
+        var weatherData = await weatherRes.json();
+        if (!weatherData.current) {
+          showError("Couldn't find that city — check the spelling.");
+          return;
+        }
+        renderWeather(loc, weatherData.current, weatherData.daily);
+      } catch (err) {
+        showError("Couldn't find that city — check the spelling.");
+      } finally {
+        searchBtn.disabled = false;
+      }
+    }
+
+    async function searchCity(city) {
+      city = (city || '').trim();
+      if (!city) {
+        showError('Enter a city first.');
+        return;
+      }
+
+      hideSuggestions();
+      searchBtn.disabled = true;
+      showLoading();
+
+      try {
+        // Step 1: geocode the city name to coordinates (English output).
+        var geoRes = await fetch(GEO_URL + '?name=' + encodeURIComponent(city) + '&count=10&language=en&format=json');
+        var geoData = await geoRes.json();
+        if (!geoData.results || !geoData.results.length) {
+          showError("Couldn't find that city — check the spelling.");
+          return;
+        }
+        searchBtn.disabled = false;
+        // If several places share the name, let the user disambiguate.
+        if (geoData.results.length > 1) {
+          renderGeoResults(geoData.results);
+          return;
+        }
+        fetchWeather(geoData.results[0]);
+      } catch (err) {
+        showError("Couldn't find that city — check the spelling.");
+        searchBtn.disabled = false;
+      }
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      searchCity(cityInput.value);
+    });
+  })();
+  </script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var API_URL = 'https://uapis.cn/api/v1/misc/worldtime';
+
+    // Curated city list: { display name, IANA timezone (fallback), flag emoji }
+    var ALL_CITIES = [
+      { name: 'Los Angeles', tz: 'America/Los_Angeles', flag: '🇺🇸' },
+      { name: 'Chicago', tz: 'America/Chicago', flag: '🇺🇸' },
+      { name: 'New York', tz: 'America/New_York', flag: '🇺🇸' },
+      { name: 'Toronto', tz: 'America/Toronto', flag: '🇨🇦' },
+      { name: 'Mexico City', tz: 'America/Mexico_City', flag: '🇲🇽' },
+      { name: 'São Paulo', tz: 'America/Sao_Paulo', flag: '🇧🇷' },
+      { name: 'Buenos Aires', tz: 'America/Argentina/Buenos_Aires', flag: '🇦🇷' },
+      { name: 'London', tz: 'Europe/London', flag: '🇬🇧' },
+      { name: 'Dublin', tz: 'Europe/Dublin', flag: '🇮🇪' },
+      { name: 'Paris', tz: 'Europe/Paris', flag: '🇫🇷' },
+      { name: 'Berlin', tz: 'Europe/Berlin', flag: '🇩🇪' },
+      { name: 'Madrid', tz: 'Europe/Madrid', flag: '🇪🇸' },
+      { name: 'Rome', tz: 'Europe/Rome', flag: '🇮🇹' },
+      { name: 'Amsterdam', tz: 'Europe/Amsterdam', flag: '🇳🇱' },
+      { name: 'Moscow', tz: 'Europe/Moscow', flag: '🇷🇺' },
+      { name: 'Istanbul', tz: 'Europe/Istanbul', flag: '🇹🇷' },
+      { name: 'Cairo', tz: 'Africa/Cairo', flag: '🇪🇬' },
+      { name: 'Lagos', tz: 'Africa/Lagos', flag: '🇳🇬' },
+      { name: 'Johannesburg', tz: 'Africa/Johannesburg', flag: '🇿🇦' },
+      { name: 'Dubai', tz: 'Asia/Dubai', flag: '🇦🇪' },
+      { name: 'Tehran', tz: 'Asia/Tehran', flag: '🇮🇷' },
+      { name: 'Karachi', tz: 'Asia/Karachi', flag: '🇵🇰' },
+      { name: 'Mumbai', tz: 'Asia/Kolkata', flag: '🇮🇳' },
+      { name: 'Kathmandu', tz: 'Asia/Kathmandu', flag: '🇳🇵' },
+      { name: 'Dhaka', tz: 'Asia/Dhaka', flag: '🇧🇩' },
+      { name: 'Bangkok', tz: 'Asia/Bangkok', flag: '🇹🇭' },
+      { name: 'Singapore', tz: 'Asia/Singapore', flag: '🇸🇬' },
+      { name: 'Hong Kong', tz: 'Asia/Hong_Kong', flag: '🇭🇰' },
+      { name: 'Beijing', tz: 'Asia/Shanghai', flag: '🇨🇳' },
+      { name: 'Shanghai', tz: 'Asia/Shanghai', flag: '🇨🇳' },
+      { name: 'Seoul', tz: 'Asia/Seoul', flag: '🇰🇷' },
+      { name: 'Tokyo', tz: 'Asia/Tokyo', flag: '🇯🇵' },
+      { name: 'Sydney', tz: 'Australia/Sydney', flag: '🇦🇺' },
+      { name: 'Melbourne', tz: 'Australia/Melbourne', flag: '🇦🇺' },
+      { name: 'Auckland', tz: 'Pacific/Auckland', flag: '🇳🇿' }
+    ];
+
+    // Cities shown by default (display names)
+    var DEFAULT_CITIES = ['Beijing', 'New York', 'London', 'Paris', 'Dubai', 'Tokyo', 'Sydney'];
+    // Cities that are always present and cannot be removed
+    var PINNED_CITIES = ['Beijing'];
+
+    var grid = document.getElementById('worldtime-grid');
+    var select = document.getElementById('worldtime-select');
+    var addBtn = document.getElementById('worldtime-add-btn');
+    var formatBtns = document.querySelectorAll('.format-btn');
+    var clockFormat = '24';
+    var localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    // Build lookup by display name
+    var cityMap = {};
+    ALL_CITIES.forEach(function (c) { cityMap[c.name] = c; });
+
+    // API query name: strip spaces and accents (API doesn't accept spaces)
+    function toApiName(name) {
+      return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '');
+    }
+
+    // State: map of display name -> clock state
+    //   { name, tz, flag, offset, ready }
+    //   offset = (api.timestamp_unix*1000) - Date.now() at fetch time; 0 = uncorrected
+    var clocks = {};
+
+    // Create initial clock objects for default cities
+    DEFAULT_CITIES.forEach(function (name) {
+      var c = cityMap[name];
+      if (c) clocks[name] = { name: c.name, tz: c.tz, flag: c.flag, offset: 0, ready: false };
+    });
+
+    // Ensure Beijing is always present (retain Beijing time at all times)
+    if (!clocks['Beijing']) {
+      var bj = cityMap['Beijing'];
+      if (bj) clocks['Beijing'] = { name: bj.name, tz: bj.tz, flag: bj.flag, offset: 0, ready: false };
+    }
+
+    // Populate the add-city dropdown (only cities not currently shown)
+    function populateSelect() {
+      var shown = new Set(Object.keys(clocks));
+      select.innerHTML = '<option value="">+ Add a city…</option>';
+      ALL_CITIES.forEach(function (c) {
+        if (shown.has(c.name)) return;
+        var opt = document.createElement('option');
+        opt.value = c.name;
+        opt.textContent = c.flag + ' ' + c.name + ' (' + c.tz + ')';
+        select.appendChild(opt);
+      });
+    }
+
+    function dayNightIcon(hour) {
+      return (hour >= 6 && hour < 18) ? '☀️' : '🌙';
+    }
+
+    function cssEscape(s) { return s.replace(/"/g, '\\"'); }
+    function escapeHtml(s) {
+      var d = document.createElement('div'); d.textContent = s; return d.innerHTML;
+    }
+
+    // Build the DOM element for a clock
+    function buildClockEl(state) {
+      var isLocal = (state.tz === localTz);
+      var isPinned = (PINNED_CITIES.indexOf(state.name) !== -1);
+      var el = document.createElement('div');
+      el.className = 'clock' + (isLocal ? ' clock-local' : '') + (isPinned ? ' clock-pinned' : '');
+      el.dataset.city = state.name;
+      el.innerHTML =
+        (isPinned ? '' : '<button class="clock-remove" aria-label="Remove ' + escapeHtml(state.name) + '">×</button>') +
+        '<div class="clock-flag">' + state.flag + '</div>' +
+        '<div class="clock-city">' + escapeHtml(state.name) +
+          (isPinned ? ' <span class="clock-pin-tag">📌</span>' : '') +
+          (isLocal ? ' <span class="clock-local-tag">local</span>' : '') +
+        '</div>' +
+        '<div class="clock-time" data-time>Loading…</div>' +
+        '<div class="clock-date" data-date></div>';
+      if (!isPinned) {
+        el.querySelector('.clock-remove').addEventListener('click', function () {
+          removeClock(state.name);
+        });
+      }
+      return el;
+    }
+
+    function renderGrid() {
+      grid.innerHTML = '';
+      Object.keys(clocks).forEach(function (name) {
+        grid.appendChild(buildClockEl(clocks[name]));
+      });
+      updateClocks();
+      populateSelect();
+    }
+
+    function removeClock(name) {
+      if (PINNED_CITIES.indexOf(name) !== -1) return; // pinned cities cannot be removed
+      delete clocks[name];
+      renderGrid();
+    }
+
+    function addClock(name) {
+      if (!name || clocks[name]) return;
+      var c = cityMap[name];
+      if (!c) return;
+      clocks[name] = { name: c.name, tz: c.tz, flag: c.flag, offset: 0, ready: false };
+      renderGrid();
+      fetchCityTime(name);
+    }
+
+    // Fetch current time from UAPI World Time API for a city
+    function fetchCityTime(name) {
+      var state = clocks[name];
+      if (!state) return;
+      var apiName = toApiName(state.name);
+
+      fetch(API_URL + '?city=' + encodeURIComponent(apiName))
+        .then(function (res) {
+          // Handle rate limiting with one retry after a short delay
+          if (res.status === 429) {
+            return new Promise(function (resolve) {
+              setTimeout(function () {
+                resolve(fetch(API_URL + '?city=' + encodeURIComponent(apiName)));
+              }, 1200);
+            });
+          }
+          return res;
+        })
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          if (data && data.timezone) {
+            // Beijing time must always use Asia/Shanghai — never let the API override it
+            if (state.name !== 'Beijing') {
+              state.tz = data.timezone;
+            }
+            state.offset = (data.timestamp_unix * 1000) - Date.now();
+          }
+        })
+        .catch(function () {
+          // Fall back to the IANA timezone already stored locally (no time correction)
+        })
+        .then(function () {
+          state.ready = true;
+          updateClock(state);
+        });
+    }
+
+    // Update a single clock's display
+    function updateClock(state) {
+      var el = grid.querySelector('.clock[data-city="' + cssEscape(state.name) + '"]');
+      if (!el) return;
+      var timeEl = el.querySelector('[data-time]');
+      var dateEl = el.querySelector('[data-date]');
+
+      if (!state.ready) return;
+
+      var now = new Date(Date.now() + (state.offset || 0));
+      var tz = state.tz;
+
+      var hour = parseInt(new Intl.DateTimeFormat('en-US', {
+        timeZone: tz, hour: 'numeric', hour12: false
+      }).format(now), 10);
+
+      var timeStr = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: (clockFormat === '12')
+      }).format(now);
+
+      var dateStr = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric'
+      }).format(now);
+
+      timeEl.textContent = dayNightIcon(hour) + ' ' + timeStr;
+      dateEl.textContent = dateStr;
+    }
+
+    // Update every clock
+    function updateClocks() {
+      Object.keys(clocks).forEach(function (name) {
+        updateClock(clocks[name]);
+      });
+    }
+
+    // --- Events ---
+    addBtn.addEventListener('click', function () {
+      addClock(select.value);
+      select.value = '';
+    });
+    select.addEventListener('change', function () {
+      if (select.value) {
+        addClock(select.value);
+        select.value = '';
+      }
+    });
+
+    formatBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        clockFormat = btn.dataset.format;
+        formatBtns.forEach(function (b) { b.classList.toggle('active', b === btn); });
+        updateClocks();
+      });
+    });
+
+    // Init: render clocks, fetch API time for each default city, start ticking
+    renderGrid();
+    Object.keys(clocks).forEach(function (name) { fetchCityTime(name); });
+    setInterval(updateClocks, 1000);
+  })();
+  </script>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="fun-fact">Fun fact: I enjoy testing new digital tools — I am always curious about innovative learning ideas. <span>True story.</span></div>
+      <div>&copy; 2026 Lingzhi Chen · Built with care and a lot of coffee.</div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mechanics Phenomena Visualized</title>
+<style>
+  :root {
+    --bg-deep: #02040c;
+    --neon: #4ee0ff;
+    --neon-soft: rgba(120, 220, 255, 0.25);
+    --text: #cfe8ff;
+    --text-dim: #8fb4d8;
+    --panel: rgba(8, 14, 30, 0.78);
+    --danger: #ff5a3c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: var(--bg-deep);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* ---------- Title bar ---------- */
+  .titlebar {
+    position: relative;
+    flex: 0 0 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(10, 20, 45, 0.95), rgba(5, 10, 26, 0.9));
+    border-bottom: 1px solid rgba(120, 200, 255, 0.22);
+    box-shadow: 0 0 24px rgba(60, 160, 255, 0.18);
+    z-index: 5;
+  }
+  .titlebar h1 {
+    font-size: clamp(1.05rem, 3vw, 1.6rem);
+    letter-spacing: 0.18em;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #9fe8ff, #5ec8ff, #b08cff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 18px rgba(94, 200, 255, 0.45);
+  }
+  .back {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    transition: color 0.15s, text-shadow 0.15s;
+  }
+  .back:hover { color: var(--neon); text-shadow: 0 0 10px var(--neon); }
+
+  /* ---------- Stage ---------- */
+  .stage {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    background: #000;
+  }
+  #space {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  /* ---------- HUD chips ---------- */
+  .chip {
+    position: absolute;
+    background: var(--panel);
+    border: 1px solid var(--neon-soft);
+    border-radius: 10px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+    color: var(--text);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* Ball counter top-right */
+  .counter {
+    top: 14px;
+    right: 14px;
+    padding: 8px 14px;
+    font-weight: 600;
+  }
+  .counter b {
+    color: var(--neon);
+    font-size: 1.05rem;
+  }
+
+  /* Instruction hint bottom-center */
+  .hint {
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 9px 18px;
+    white-space: nowrap;
+    color: var(--text-dim);
+    text-align: center;
+  }
+  .hint span { color: var(--neon); font-weight: 600; }
+
+  /* ---------- Control panel ---------- */
+  .panel {
+    top: 14px;
+    left: 14px;
+    width: 218px;
+    padding: 14px;
+    z-index: 3;
+  }
+  .panel-title {
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 12px;
+    text-shadow: 0 0 8px rgba(78, 224, 255, 0.5);
+  }
+  .ctl { margin-bottom: 12px; }
+  .ctl label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+    color: var(--text-dim);
+  }
+  .ctl label b { color: var(--text); font-weight: 600; }
+  .ctl input[type="range"] {
+    width: 100%;
+    accent-color: var(--neon);
+    cursor: pointer;
+  }
+  .toggles {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    cursor: pointer;
+  }
+  .toggle input { accent-color: var(--neon); }
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .buttons button {
+    padding: 8px 6px;
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    background: rgba(18, 32, 60, 0.85);
+    border: 1px solid var(--neon-soft);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, color 0.15s;
+  }
+  .buttons button:hover {
+    border-color: var(--neon);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(78, 224, 255, 0.35);
+  }
+  .buttons button:active { transform: translateY(1px); }
+  .buttons button.danger:hover {
+    border-color: var(--danger);
+    box-shadow: 0 0 12px rgba(255, 90, 60, 0.35);
+  }
+  .buttons button.wide { grid-column: 1 / -1; }
+
+  /* Small screens: let panel stay usable */
+  @media (max-width: 520px) {
+    .panel { width: 178px; padding: 10px; }
+    .panel-title { font-size: 0.7rem; margin-bottom: 10px; }
+    .buttons { gap: 6px; }
+    .buttons button { font-size: 0.72rem; padding: 7px 4px; }
+    .hint { font-size: 0.7rem; padding: 7px 12px; white-space: normal; max-width: 92%; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="titlebar">
+    <a class="back" href="projects.html">&larr; Projects</a>
+    <h1>Mechanics Phenomena Visualized</h1>
+  </header>
+
+  <main class="stage" id="stage">
+    <canvas id="space"></canvas>
+
+    <!-- Control panel (top-left) -->
+    <aside class="chip panel" id="panel">
+      <div class="panel-title">Controls</div>
+
+      <div class="ctl">
+        <label>Gravity <b id="gVal">1.0</b></label>
+        <input type="range" id="gSlider" min="0" max="4" step="0.05" value="1" />
+      </div>
+
+      <div class="ctl">
+        <label>Expansion <b id="eVal">0.00</b></label>
+        <input type="range" id="eSlider" min="0" max="1" step="0.01" value="0" />
+      </div>
+
+      <div class="ctl">
+        <label>New mass <b id="mVal">12</b></label>
+        <input type="range" id="mSlider" min="1" max="300" step="1" value="12" />
+      </div>
+
+      <div class="toggles">
+        <label class="toggle"><input type="checkbox" id="trailsChk" checked /> Trails</label>
+        <label class="toggle"><input type="checkbox" id="mergeChk" checked /> Merge</label>
+      </div>
+
+      <div class="buttons">
+        <button id="pauseBtn">Pause</button>
+        <button class="danger" id="clearBtn">Clear</button>
+        <button id="galaxyBtn">Galaxy</button>
+        <button id="binaryBtn">Binary</button>
+      </div>
+    </aside>
+
+    <!-- Ball counter (top-right) -->
+    <div class="chip counter">Bodies <b id="count">0</b></div>
+
+    <!-- Instruction hint (bottom-center) -->
+    <div class="chip hint">
+      <span>Drag</span> to launch a body &mdash; <span>Click</span> to place at rest &mdash; sliders tune G &amp; expansion
+    </div>
+  </main>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- Canvas ---------- */
+  var canvas = document.getElementById('space');
+  var ctx = canvas.getContext('2d');
+  var stage = document.getElementById('stage');
+  var W = 0, H = 0;
+
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = stage.clientWidth, h = stage.clientHeight;
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    W = w; H = h;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  /* ---------- UI refs ---------- */
+  var gSlider = document.getElementById('gSlider');
+  var eSlider = document.getElementById('eSlider');
+  var mSlider = document.getElementById('mSlider');
+  var trailsChk = document.getElementById('trailsChk');
+  var mergeChk = document.getElementById('mergeChk');
+  var pauseBtn = document.getElementById('pauseBtn');
+  var clearBtn = document.getElementById('clearBtn');
+  var galaxyBtn = document.getElementById('galaxyBtn');
+  var binaryBtn = document.getElementById('binaryBtn');
+  var countEl = document.getElementById('count');
+  var gVal = document.getElementById('gVal');
+  var eVal = document.getElementById('eVal');
+  var mVal = document.getElementById('mVal');
+
+  /* ---------- Physics constants ----------
+     Calibrated for visibly orbiting bodies: ~5-second circular orbit at r=120
+     around a 1800-mass star, on a ~600px canvas. Time is real seconds. */
+  var G_BASE = 1600;     // gravity per slider unit (px³·s⁻²·mass⁻¹)
+  var SOFT2 = 900;       // softening length squared (≈ 30px) — only affects very close encounters
+  var SUBSTEPS = 4;      // integration substeps per frame for stability
+  var MAX_BODIES = 600;
+  var MAX_SPEED = 500;   // safety clamp (px/s)
+
+  var bodies = [];
+
+  function radiusFor(m) { return Math.max(2.2, 2.3 * Math.pow(m, 1 / 3)); }
+
+  function addBody(x, y, vx, vy, m) {
+    if (bodies.length >= MAX_BODIES) return;
+    bodies.push({ x: x, y: y, vx: vx, vy: vy, m: m, r: radiusFor(m) });
+  }
+
+  /* Color: bluish-white for light bodies, reddish for heavy ones */
+  function colorFor(m) {
+    var t = Math.min(1, Math.max(0, m / 700));
+    return {
+      hue: Math.round(200 - 195 * t),
+      sat: Math.round(40 + 50 * t),
+      lig: Math.round(86 - 18 * t)
+    };
+  }
+  function cssColor(m) {
+    var c = colorFor(m);
+    return 'hsl(' + c.hue + ',' + c.sat + '%,' + c.lig + '%)';
+  }
+
+  /* ---------- Physics step ---------- */
+  function step(dt) {
+    if (dt <= 0) return;
+    var G = G_BASE * parseFloat(gSlider.value);
+    var ex = parseFloat(eSlider.value);
+
+    // Integrate in substeps for stability at high speeds
+    var subdt = dt / SUBSTEPS;
+
+    for (var sub = 0; sub < SUBSTEPS; sub++) {
+      var n = bodies.length;
+      if (!n) return;
+
+      var ax = new Float64Array(n);
+      var ay = new Float64Array(n);
+
+      for (var i = 0; i < n; i++) {
+        var bi = bodies[i];
+        for (var j = i + 1; j < n; j++) {
+          var bj = bodies[j];
+          var dx = bj.x - bi.x, dy = bj.y - bi.y;
+          var r2 = dx * dx + dy * dy + SOFT2;
+          var d = Math.sqrt(r2);
+          var ai = G * bj.m / r2;
+          var aj = G * bi.m / r2;
+          ax[i] += ai * dx / d; ay[i] += ai * dy / d;
+          ax[j] -= aj * dx / d; ay[j] -= aj * dy / d;
+        }
+      }
+
+      for (var k = 0; k < n; k++) {
+        var b = bodies[k];
+        b.vx += ax[k] * subdt;
+        b.vy += ay[k] * subdt;
+        var sp = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
+        if (sp > MAX_SPEED) {
+          b.vx *= MAX_SPEED / sp;
+          b.vy *= MAX_SPEED / sp;
+        }
+        b.x += b.vx * subdt;
+        b.y += b.vy * subdt;
+      }
+
+      // Universe expansion (applied once per full step, not per substep,
+      // so it doesn't double-scale the universe)
+      if (sub === 0 && ex > 0) {
+        var expf = 1 + ex * 0.002;
+        var cx = W / 2, cy = H / 2;
+        for (var m2 = 0; m2 < n; m2++) {
+          var p = bodies[m2];
+          p.x = cx + (p.x - cx) * expf;
+          p.y = cy + (p.y - cy) * expf;
+        }
+      }
+    }
+
+    // Collision merging (optional): when two balls overlap they merge into one.
+    // Conservation of momentum: combined mass, position and velocity = mass-weighted average.
+    if (mergeChk.checked) {
+      var nn = bodies.length;
+      for (var a = 0; a < nn; a++) {
+        var ba = bodies[a];
+        if (ba.dead) continue;
+        for (var b2 = a + 1; b2 < nn; b2++) {
+          var bb = bodies[b2];
+          if (bb.dead) continue;
+          var mdx = bb.x - ba.x, mdy = bb.y - ba.y;
+          var rr = ba.r + bb.r;
+          if (mdx * mdx + mdy * mdy <= rr * rr) {
+            var M = ba.m + bb.m;
+            ba.x = (ba.x * ba.m + bb.x * bb.m) / M;
+            ba.y = (ba.y * ba.m + bb.y * bb.m) / M;
+            ba.vx = (ba.vx * ba.m + bb.vx * bb.m) / M;
+            ba.vy = (ba.vy * ba.m + bb.vy * bb.m) / M;
+            ba.m = M;
+            ba.r = radiusFor(M);
+            bb.dead = true;
+          }
+        }
+      }
+      bodies = bodies.filter(function (b) { return !b.dead; });
+    }
+  }
+
+  /* ---------- Scenes ---------- */
+
+  // Circular-orbit speed at radius r from a central mass M, using the SAME
+  // softened acceleration formula that step() uses — so launched bodies
+  // are exactly on circular orbits and actually orbit instead of flying out.
+  function orbitSpeed(r, M) {
+    var a = (G_BASE * M) / (r * r + SOFT2);
+    return Math.sqrt(a * r);
+  }
+
+  function spawnGalaxy() {
+    bodies = [];
+    var cx = W / 2, cy = H / 2;
+    var M_star = 1800;
+    addBody(cx, cy, 0, 0, M_star); // big central star
+
+    // Orbiters are light test-particles (total disk mass ≈ 5% of the star)
+    // on near-circular softened-gravity orbits → dynamically stable system
+    // that still allows occasional real collision-mergers.
+    var n = 110 + Math.floor(Math.random() * 15);
+    var maxR = Math.min(W, H) * 0.44;
+    for (var i = 0; i < n; i++) {
+      var r = 120 + Math.random() * (maxR - 120);
+      var a = Math.random() * Math.PI * 2;
+      var m = 0.3 + Math.random() * 1.2;
+      var v = orbitSpeed(r, M_star);
+      var jitter = 0.992 + Math.random() * 0.016; // near-perfect circular orbits
+      addBody(
+        cx + Math.cos(a) * r,
+        cy + Math.sin(a) * r,
+        -Math.sin(a) * v * jitter,
+        Math.cos(a) * v * jitter,
+        m
+      );
+    }
+  }
+
+  function spawnBinary() {
+    bodies = [];
+    var cx = W / 2, cy = H / 2;
+    var M1 = 900, M2 = 800, d = 150;
+
+    // Two large stars on circular orbits about their common center of mass.
+    // Each orbits the barycenter at radius r1 = d * M2/(M1+M2), r2 = d * M1/(M1+M2).
+    var r1 = d * M2 / (M1 + M2);
+    var r2 = d * M1 / (M1 + M2);
+    // Each moves in the gravity of the other at distance d (full separation).
+    var v1 = orbitSpeed(d, M2);
+    var v2 = orbitSpeed(d, M1);
+    addBody(cx - r1, cy, 0, -v1, M1);
+    addBody(cx + r2, cy, 0,  v2, M2);
+
+    // Outer asteroids (light) orbit well outside the binary pair
+    var M_tot = M1 + M2;
+    var ast = 26 + Math.floor(Math.random() * 10);
+    var maxR = Math.min(W, H) * 0.47;
+    for (var i = 0; i < ast; i++) {
+      var r = d + 90 + Math.random() * (maxR - d - 90);
+      var a = Math.random() * Math.PI * 2;
+      var m = 0.4 + Math.random() * 2;
+      var v = orbitSpeed(r, M_tot);
+      var jitter = 0.99 + Math.random() * 0.02;
+      addBody(
+        cx + Math.cos(a) * r,
+        cy + Math.sin(a) * r,
+        -Math.sin(a) * v * jitter,
+        Math.cos(a) * v * jitter,
+        m
+      );
+    }
+  }
+
+  /* ---------- Interaction (drag to slingshot / click to place) ---------- */
+  var dragging = false;
+  var dX0 = 0, dY0 = 0, dX1 = 0, dY1 = 0;
+
+  function onDown(e) {
+    dragging = true;
+    dX0 = dX1 = e.offsetX;
+    dY0 = dY1 = e.offsetY;
+  }
+  function onMove(e) {
+    if (!dragging) return;
+    dX1 = e.offsetX;
+    dY1 = e.offsetY;
+  }
+  function onUp() {
+    if (!dragging) return;
+    dragging = false;
+    var ddx = dX1 - dX0, ddy = dY1 - dY0;
+    var dist = Math.sqrt(ddx * ddx + ddy * ddy);
+    var m = parseFloat(mSlider.value);
+    if (dist < 8) {
+      // Click: place a body at rest
+      addBody(dX0, dY0, 0, 0, m);
+    } else {
+      // Slingshot: launch opposite the drag direction; velocity (px/s) grows
+      // with drag length — the farther you drag, the faster it flies.
+      var k = 1.8;
+      addBody(dX0, dY0, -ddx * k, -ddy * k, m);
+    }
+  }
+
+  canvas.addEventListener('pointerdown', function (e) {
+    try { canvas.setPointerCapture(e.pointerId); } catch (err) { /* pointer may not be active */ }
+    onDown(e);
+  });
+  canvas.addEventListener('pointermove', onMove);
+  canvas.addEventListener('pointerup', onUp);
+  canvas.addEventListener('pointercancel', onUp);
+
+  /* ---------- Buttons ---------- */
+  var paused = false;
+  pauseBtn.addEventListener('click', function () {
+    paused = !paused;
+    pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+  });
+  clearBtn.addEventListener('click', function () { bodies = []; });
+  galaxyBtn.addEventListener('click', spawnGalaxy);
+  binaryBtn.addEventListener('click', spawnBinary);
+
+  /* ---------- Render ---------- */
+  function drawGuide() {
+    var m = parseFloat(mSlider.value);
+    ctx.save();
+    // ghost body (the one you will launch) at the drag start
+    var ghost = cssColor(m);
+    ctx.shadowColor = ghost;
+    ctx.shadowBlur = 14;
+    ctx.fillStyle = ghost;
+    ctx.globalAlpha = 0.9;
+    ctx.beginPath();
+    ctx.arc(dX0, dY0, radiusFor(m), 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+
+    // dashed line + arrowhead toward the cursor
+    ctx.strokeStyle = 'rgba(120, 220, 255, 0.85)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 6]);
+    ctx.beginPath();
+    ctx.moveTo(dX0, dY0);
+    ctx.lineTo(dX1, dY1);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    var dragLen = Math.sqrt((dX1 - dX0) * (dX1 - dX0) + (dY1 - dY0) * (dY1 - dY0));
+    var ang = Math.atan2(dY1 - dY0, dX1 - dX0);
+    var len = Math.min(26, 6 + dragLen / 6);
+    ctx.beginPath();
+    ctx.moveTo(dX1, dY1);
+    ctx.lineTo(dX1 - len * Math.cos(ang - 0.42), dY1 - len * Math.sin(ang - 0.42));
+    ctx.moveTo(dX1, dY1);
+    ctx.lineTo(dX1 - len * Math.cos(ang + 0.42), dY1 - len * Math.sin(ang + 0.42));
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function render() {
+    if (trailsChk.checked) {
+      // Fade-clear leaves glowing motion trails
+      ctx.fillStyle = 'rgba(3, 7, 18, 0.14)';
+    } else {
+      ctx.fillStyle = '#030714';
+    }
+    ctx.fillRect(0, 0, W, H);
+
+    for (var i = 0; i < bodies.length; i++) {
+      var b = bodies[i];
+      var col = cssColor(b.m);
+      ctx.shadowColor = col;
+      ctx.shadowBlur = Math.min(30, b.r * 1.6);
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+
+    if (dragging) drawGuide();
+  }
+
+  /* ---------- Live label updates ---------- */
+  function updateLabels() {
+    gVal.textContent = parseFloat(gSlider.value).toFixed(1);
+    eVal.textContent = parseFloat(eSlider.value).toFixed(2);
+    mVal.textContent = Math.round(parseFloat(mSlider.value));
+    countEl.textContent = bodies.length;
+  }
+
+  /* ---------- Main loop ---------- */
+  var last = performance.now();
+  function loop(now) {
+    var dt = Math.min(0.05, (now - last) / 1000); // clamp to 50ms for stability
+    last = now;
+    if (!paused) step(dt);
+    render();
+    updateLabels();
+    requestAnimationFrame(loop);
+  }
+
+  // Open with the Galaxy scene automatically
+  spawnGalaxy();
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
